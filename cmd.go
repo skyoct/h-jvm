@@ -11,7 +11,7 @@ type Cmd struct {
 	helpFlag bool
 	versionFlag bool
 	cpOption string
-	XjreOption string
+	jreOption string   //非标注 用来加载jre的类
 	class string
 	args []string
 }
@@ -26,8 +26,9 @@ func cmdParser() *Cmd {
 	flag.BoolVar(&cmd.helpFlag, "help", false, "print help message")
 	flag.BoolVar(&cmd.helpFlag, "?", false, "print help message")
 	flag.BoolVar(&cmd.versionFlag, "version", false, "print version and exit")
-	flag.StringVar(&cmd.cpOption, "classpath", "", "classpath")
-	flag.StringVar(&cmd.XjreOption, "Xjre", "", "classpath")
+	flag.StringVar(&cmd.cpOption, "classpath", "", "classpath")  // classpath  和 cp一样
+	flag.StringVar(&cmd.cpOption, "cp", "", "classpath")
+	flag.StringVar(&cmd.jreOption, "jre", "", "path to jre")
 
 	flag.Parse()
 	args := flag.Args()
@@ -38,8 +39,9 @@ func cmdParser() *Cmd {
 	return cmd
 }
 
+// 提示信息
 func printUsage(){
-	fmt.Print("Usage: %s [-options] class [args...]\n", os.Args[0])
+	fmt.Printf("Usage: %s [-options] class [args...]\n",  os.Args[0])
 }
 
 
