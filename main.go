@@ -2,31 +2,51 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"h-jvm/classfile"
+	"h-jvm/classpath"
+	"h-jvm/runtimedata"
 )
-import "h-jvm/classpath"
-import "h-jvm/classfile"
 
-func main(){
+func main() {
 	cmd := cmdParser()
 	if cmd.versionFlag {
 		fmt.Print("h-jvm version 0.0.1")
-	}else if cmd.helpFlag || cmd.class == "" {
+	} else if cmd.helpFlag || cmd.class == "" {
 		printUsage()
 	} else {
 		startJVM(cmd)
 	}
 }
 
-func startJVM(cmd * Cmd) {
-	cp := classpath.Parser(cmd.cpOption)
-	fmt.Printf("classpath: %v class: %v args:%v \n", cp, cmd.cpOption, cmd.args)
-	className := strings.Replace(cmd.class, ".", "/", -1)
-	cf := loadClass(className, cp)
-	printClassInfo(cf)
+func startJVM(cmd *Cmd) {
+	printStack()
 }
 
-func loadClass(className string, cp *classpath.Classpath) *classfile.ClassFile{
+func printStack() {
+	thread := runtimedata.NewThread()
+	frame := runtimedata.NewFrame(100, 100)
+	thread.PushFrame(frame)
+	currentFrame := thread.CurrentFrame()
+	currentFrame.LocalVars().SetInt(0, 123)
+	currentFrame.LocalVars().SetLong(1, 233333333333)
+	currentFrame.LocalVars().SetFloat(3, 1.222)
+	currentFrame.LocalVars().SetDouble(4, 2.222222222)
+	fmt.Println(currentFrame.LocalVars().GetInt(0))
+	fmt.Println(currentFrame.LocalVars().GetFloat(3))
+	fmt.Println(currentFrame.LocalVars().GetDouble(4))
+	fmt.Println(currentFrame.LocalVars().GetLong(1))
+	currentFrame.OperandStack().PushInt(123)
+	currentFrame.OperandStack().PushFloat(1.2222)
+	currentFrame.OperandStack().PushLong(1234567891234)
+	currentFrame.OperandStack().PushDouble(1.23456781222)
+	fmt.Println(currentFrame.OperandStack().PopDouble())
+	fmt.Println(currentFrame.OperandStack().PopLong())
+	fmt.Println(currentFrame.OperandStack().PopFloat())
+	fmt.Println(currentFrame.OperandStack().PopInt())
+
+}
+
+func loadClass(className string, cp *classpath.Classpath) *classfile.ClassFile {
 	classData, _, err := cp.ReadClass(className)
 	if err != nil {
 		fmt.Printf("class not found or load main class %s", className)
@@ -52,5 +72,7 @@ func printClassInfo(cf *classfile.ClassFile) {
 	fmt.Printf("methods count: %v\n", len(cf.Methods()))
 	for _, m := range cf.Methods() {
 		fmt.Printf("  %s\n", m.Name())
+		fmt.Println(m.CodeAttribute().Code())
+
 	}
 }
