@@ -59,7 +59,7 @@ func (l LocalVars) GetDouble(index uint) float64 {
 }
 
 // 设置引用
-func (l LocalVars) SetRef(index uint32, ref *Reference) {
+func (l LocalVars) SetRef(index uint, ref *Reference) {
 	l[index].ref = ref
 }
 
