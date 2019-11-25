@@ -13,11 +13,11 @@ import (
 //
 // 栈顶的小于栈顶下面的为1 相等的为0 否则为-1
 
-type LComp struct {
+type LCmp struct {
 	base.NoOperandsInstruction
 }
 
-func (l *LComp) Execute(frame *runtimedata.Frame) {
+func (l *LCmp) Execute(frame *runtimedata.Frame) {
 	stack := frame.OperandStack()
 	val1 := stack.PopLong()
 	val2 := stack.PopLong()
