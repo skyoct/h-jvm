@@ -72,3 +72,7 @@ func (o *OperandStack) PopRef() *Reference {
 	o.size--
 	return o.slots[o.size].ref
 }
+
+func (o *OperandStack) PopSlot() {
+	o.size--
+}
