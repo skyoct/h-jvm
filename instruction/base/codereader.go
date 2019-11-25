@@ -54,3 +54,7 @@ func (c *CodeReader) ReadInt32s(n int32) []int32 {
 	}
 	return ints
 }
+
+func (c *CodeReader) Pc() int {
+	return c.pc
+}
