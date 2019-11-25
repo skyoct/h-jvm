@@ -43,10 +43,10 @@ func (c *CodeAttribute) Code() []byte {
 	return c.code
 }
 
-func (c *CodeAttribute) MaxLocals() uint16 {
-	return c.maxLocals
+func (c *CodeAttribute) MaxLocals() uint {
+	return uint(c.maxLocals)
 }
 
-func (c *CodeAttribute) MaxStack() uint16 {
-	return c.maxStack
+func (c *CodeAttribute) MaxStack() uint {
+	return uint(c.maxLocals)
 }
