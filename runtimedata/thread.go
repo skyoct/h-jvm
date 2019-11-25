@@ -27,6 +27,10 @@ func (t *Thread) PopFrame() *Frame {
 	return t.stack.pop()
 }
 
-func (t *Thread) SetNextPc(nextPc int) {
+func (t *Thread) SetPc(nextPc int) {
 	t.pc = nextPc
+}
+
+func (t *Thread) Pc() int {
+	return t.pc
 }
