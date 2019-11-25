@@ -18,7 +18,7 @@ type ExceptionTableEntry struct {
 
 func (c *CodeAttribute) readInfo(reader *ClassReader) {
 	c.maxStack = reader.readUint16()
-	c.maxStack = reader.readUint16()
+	c.maxLocals = reader.readUint16()
 	codeLength := reader.readUint32()
 	c.code = reader.readBytes(codeLength)
 	c.exceptionTable = readExceptionTable(reader)
