@@ -4,7 +4,6 @@ import "math"
 
 // 数值类型的常量
 
-
 // 整型
 type ConstantIntegerInfo struct {
 	val int32
@@ -15,6 +14,9 @@ func (c *ConstantIntegerInfo) readInfo(reader *ClassReader) {
 	c.val = int32(bytes)
 }
 
+func (c *ConstantIntegerInfo) Value() int32 {
+	return c.val
+}
 
 // 浮点型
 
@@ -27,7 +29,9 @@ func (c *ConstantFloatInfo) readInfo(reader *ClassReader) {
 	c.val = math.Float32frombits(bytes)
 }
 
-
+func (c *ConstantFloatInfo) Value() float32 {
+	return c.val
+}
 
 // 长整形
 type ConstantLongInfo struct {
@@ -39,6 +43,9 @@ func (c *ConstantLongInfo) readInfo(reader *ClassReader) {
 	c.val = int64(bytes)
 }
 
+func (c *ConstantLongInfo) Value() int64 {
+	return c.val
+}
 
 // 双精度浮点型
 type ConstantDoubleInfo struct {
@@ -50,15 +57,6 @@ func (c *ConstantDoubleInfo) readInfo(reader *ClassReader) {
 	c.val = math.Float64frombits(bytes)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+func (c *ConstantDoubleInfo) Value() float64 {
+	return c.val
+}
