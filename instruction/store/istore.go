@@ -45,7 +45,7 @@ type IStore2 struct {
 }
 
 func (i *IStore2) Execute(frame *runtimedata.Frame) {
-	_iStore(frame, 0)
+	_iStore(frame, 2)
 }
 
 type IStore3 struct {
@@ -53,5 +53,5 @@ type IStore3 struct {
 }
 
 func (i *IStore3) Execute(frame *runtimedata.Frame) {
-	_iStore(frame, 0)
+	_iStore(frame, 3)
 }

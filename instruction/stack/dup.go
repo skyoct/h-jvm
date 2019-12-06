@@ -95,11 +95,11 @@ func (d *Dup2X1) Execute(frame *runtimedata.Frame) {
 	stack.PushSlot(slot1)
 }
 
-type Dup2X3 struct {
+type Dup2X2 struct {
 	base.NoOperandsInstruction
 }
 
-func (d *Dup2X3) Execute(frame *runtimedata.Frame) {
+func (d *Dup2X2) Execute(frame *runtimedata.Frame) {
 	stack := frame.OperandStack()
 	slot1 := stack.PopSlot()
 	slot2 := stack.PopSlot()
