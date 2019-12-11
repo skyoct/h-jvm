@@ -48,3 +48,18 @@ func (c *ClassMember) Descriptor() string {
 func (c *ClassMember) Class() *Class {
 	return c.class
 }
+
+// 字段和方法的访问权限判断
+func (c *ClassMember) isAccessibleTo(d *Class) bool {
+	if c.IsPublic() {
+		return true
+	}
+	class := c.class
+	if c.IsProtected() {
+		return d == class || d.isSubClassOf(class) || class.getPackageName() == d.getPackageName()
+	}
+	if !c.IsPrivate() {
+		return class.getPackageName() == d.getPackageName()
+	}
+	return d == class
+}

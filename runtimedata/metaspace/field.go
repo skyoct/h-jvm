@@ -17,7 +17,7 @@ func newField(class *Class, cfFields []*classfile.MemberInfo) []*Field {
 	return fields
 }
 
-// long的描述符为J  double的描述符为D  对象的描述符为L
+// long的描述符为J  double的描述符为D  对象的描述符为L+类的全限定名
 func (f *Field) isDoubleOrLong() bool {
 	return f.ClassMember.descriptor == "J" || f.ClassMember.descriptor == "D"
 }
