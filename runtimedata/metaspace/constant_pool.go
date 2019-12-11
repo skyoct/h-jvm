@@ -1,6 +1,9 @@
 package metaspace
 
-import "h-jvm/classfile"
+import (
+	"fmt"
+	"h-jvm/classfile"
+)
 
 type Constant interface{}
 
@@ -22,4 +25,11 @@ func newConstantPool(class *Class, cfCp classfile.ConstantPool) *ConstantPool {
 		}
 	}
 	return cp
+}
+
+func (s *ConstantPool) GetConstant(index uint) Constant {
+	if c := s.constants[index]; c != nil {
+		return c
+	}
+	panic(fmt.Sprintf("No constants at index %d", index))
 }

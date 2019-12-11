@@ -13,8 +13,10 @@ type Class struct {
 	classLoader       *ClassLoader
 	superClass        *Class
 	interfaces        []*Class
-	instanceSlotCount uint
-	staticSlotCount   uint
+	instanceSlotCount uint  // 实例变量槽数量
+	staticSlotCount   uint  // 静态变量槽数量
+	staticVars        Slots // 静态变量放的槽
+
 }
 
 // 创建类
