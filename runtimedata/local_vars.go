@@ -1,6 +1,7 @@
 package runtimedata
 
 import (
+	"h-jvm/runtimedata/metaspace"
 	"math"
 )
 
@@ -59,10 +60,10 @@ func (l LocalVars) GetDouble(index uint) float64 {
 }
 
 // 设置引用
-func (l LocalVars) SetRef(index uint, ref *Reference) {
+func (l LocalVars) SetRef(index uint, ref *metaspace.Object) {
 	l[index].ref = ref
 }
 
-func (l LocalVars) GetRef(index uint) *Reference {
+func (l LocalVars) GetRef(index uint) *metaspace.Object {
 	return l[index].ref
 }

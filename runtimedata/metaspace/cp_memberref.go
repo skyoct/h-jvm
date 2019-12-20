@@ -55,7 +55,7 @@ func newInterfaceMethodRef(cp *ConstantPool, refInfo *classfile.ConstantFieldref
 //字段的符号引用解析 如果存在 直接返回 不存在就去解析
 func (f *FieldRef) ResolvedField() *Field {
 	if f.field == nil {
-
+		f.resolveFieldRef()
 	}
 	return f.field
 }

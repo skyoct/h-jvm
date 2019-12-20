@@ -4,8 +4,8 @@ import "math"
 
 //  用来存放静态变量和实例变量
 type Slot struct {
-	val int32      // 存放int float （double和lang需要两个）
-	ref *Reference // 存放引用
+	val int32   // 存放int float （double和lang需要两个）
+	ref *Object // 存放引用
 }
 
 type Slots []Slot
@@ -54,9 +54,9 @@ func (s Slots) GetDouble(index uint) float64 {
 	return math.Float64frombits(bits)
 }
 
-func (s Slots) SetRef(index uint, ref *Reference) {
+func (s Slots) SetRef(index uint, ref *Object) {
 	s[index].ref = ref
 }
-func (s Slots) GetRef(index uint) *Reference {
+func (s Slots) GetRef(index uint) *Object {
 	return s[index].ref
 }

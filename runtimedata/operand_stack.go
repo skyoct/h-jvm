@@ -1,6 +1,9 @@
 package runtimedata
 
-import "math"
+import (
+	"h-jvm/runtimedata/metaspace"
+	"math"
+)
 
 // 操作数栈
 
@@ -63,12 +66,12 @@ func (o *OperandStack) PopDouble() float64 {
 	return math.Float64frombits(bits)
 }
 
-func (o *OperandStack) PushRef(ref *Reference) {
+func (o *OperandStack) PushRef(ref *metaspace.Object) {
 	o.slots[o.size].ref = ref
 	o.size++
 }
 
-func (o *OperandStack) PopRef() *Reference {
+func (o *OperandStack) PopRef() *metaspace.Object {
 	o.size--
 	return o.slots[o.size].ref
 }

@@ -21,3 +21,7 @@ func newField(class *Class, cfFields []*classfile.MemberInfo) []*Field {
 func (f *Field) isDoubleOrLong() bool {
 	return f.ClassMember.descriptor == "J" || f.ClassMember.descriptor == "D"
 }
+
+func (f *Field) SlotId() uint {
+	return f.slotId
+}

@@ -35,6 +35,11 @@ func newClass(cf *classfile.ClassFile) *Class {
 	return class
 }
 
+// 创建一个对象
+func (c *Class) NewObject() *Object {
+	return newObject(c)
+}
+
 // 判断标志文件
 func (c *Class) IsPublic() bool {
 	return 0 != c.accessFlags&ACC_PUBLIC
