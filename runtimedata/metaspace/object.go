@@ -19,3 +19,8 @@ func (o *Object) Class() *Class {
 func (o *Object) Fields() Slots {
 	return o.fields
 }
+
+// 判断是某个类的实例
+func (o *Object) IsInstanceOf(class *Class) bool {
+	return class.isAssignableFrom(o.class)
+}
