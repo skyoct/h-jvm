@@ -12,10 +12,10 @@ type Frame struct {
 	method       *metaspace.Method // 指向方法的指针 每个帧都是一个方法
 }
 
-func NewFrame(maxLocals, maxStack uint, method *metaspace.Method) *Frame {
+func NewFrame(method *metaspace.Method) *Frame {
 	return &Frame{
-		localVars:    newLocalVars(maxLocals),
-		operandStack: newOperandStack(maxStack),
+		localVars:    newLocalVars(method.MaxLocals()),
+		operandStack: newOperandStack(method.MaxStack()),
 		method:       method,
 	}
 }
