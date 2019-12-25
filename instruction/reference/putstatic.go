@@ -15,8 +15,8 @@ func (p *PutStatic) Execute(frame *runtimedata.Frame) {
 	currentMethod := frame.Method()
 	currentClass := frame.Method().Class() // 当前类
 	cp := currentClass.ConstantPool()
-	fieldRef := cp.GetConstant(p.Index).(metaspace.FieldRef) // 字段引用
-	field := fieldRef.ResolvedField()                        // 解决类加载
+	fieldRef := cp.GetConstant(p.Index).(*metaspace.FieldRef) // 字段引用
+	field := fieldRef.ResolvedField()                         // 解决类加载
 	class := field.Class()
 	if !field.IsStatic() {
 		panic("java.lang.IncompatibleClassChangeError") // 如果不是静态的字段 抛出 uncompatibleClassChangeError

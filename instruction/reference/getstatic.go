@@ -12,7 +12,7 @@ type GetStatic struct {
 
 func (g *GetStatic) Execute(frame *runtimedata.Frame) {
 	cp := frame.Method().Class().ConstantPool()
-	fieldRef := cp.GetConstant(g.Index).(metaspace.FieldRef)
+	fieldRef := cp.GetConstant(g.Index).(*metaspace.FieldRef)
 	field := fieldRef.ResolvedField() // 通过字段引用加载字段
 	class := field.Class()            // 得到字段所属的class
 	if !field.IsStatic() {            // 如果当前字段不是静态的
