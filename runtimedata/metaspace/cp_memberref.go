@@ -32,7 +32,7 @@ type MethodRef struct {
 	method *Method
 }
 
-func newMethodRef(cp *ConstantPool, refInfo *classfile.ConstantFieldrefInfo) *MethodRef {
+func newMethodRef(cp *ConstantPool, refInfo *classfile.ConstantMethodrefInfo) *MethodRef {
 	ref := &MethodRef{}
 	ref.cp = cp
 	ref.copyMemberRefInfo(&refInfo.ConstantMemberInfo)
@@ -45,7 +45,7 @@ type InterfaceMethodRef struct {
 	method *Method
 }
 
-func newInterfaceMethodRef(cp *ConstantPool, refInfo *classfile.ConstantFieldrefInfo) *InterfaceMethodRef {
+func newInterfaceMethodRef(cp *ConstantPool, refInfo *classfile.ConstantInterfaceMethodrefInfo) *InterfaceMethodRef {
 	ref := &InterfaceMethodRef{}
 	ref.cp = cp
 	ref.copyMemberRefInfo(&refInfo.ConstantMemberInfo)
