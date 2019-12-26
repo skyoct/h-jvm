@@ -2,22 +2,18 @@ package main
 
 import (
 	"fmt"
-	"h-jvm/classfile"
 	"h-jvm/instruction"
 	"h-jvm/instruction/base"
 	"h-jvm/runtimedata"
+	"h-jvm/runtimedata/metaspace"
 )
 
-func interpret(methodInfo *classfile.MemberInfo) {
-	codeAttr := methodInfo.CodeAttribute()
-	maxLocals := codeAttr.MaxLocals()
-	maxStack := codeAttr.MaxStack()
-	code := codeAttr.Code()
-	thread := runtimedata.NewThread()                  // 创建一个线程
-	frame := runtimedata.NewFrame(maxLocals, maxStack) //创建一个帧
-	thread.PushFrame(frame)                            // 把帧压入java虚拟机栈中
+func interpret(method *metaspace.Method) {
+	thread := runtimedata.NewThread()
+	frame := runtimedata.NewFrame(method)
+	thread.PushFrame(frame)
 	defer catchErr(frame)
-	loop(thread, code)
+	loop(thread, method.Code())
 }
 
 func catchErr(frame *runtimedata.Frame) {
