@@ -10,6 +10,7 @@ import (
 	. "h-jvm/instruction/extend"
 	. "h-jvm/instruction/load"
 	. "h-jvm/instruction/math"
+	. "h-jvm/instruction/reference"
 	. "h-jvm/instruction/stack"
 	. "h-jvm/instruction/store"
 )
@@ -164,8 +165,7 @@ var (
 	// monitorexit   =
 	// invoke_native =
 	//
-	ifnull   = &IFNull{}
-	ifnonull = &IFNonNull{}
+
 )
 
 func NewInstruction(opcode byte) base.Instruction {
@@ -206,6 +206,13 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &BIPush{}
 	case 0x11:
 		return &SIPush{}
+
+	case 0x12:
+		return &Ldc{}
+	case 0x13:
+		return &LdcW{}
+	case 0x14:
+		return &Ldc2W{}
 
 	case 0x15:
 		return &ILoad{}
@@ -476,6 +483,27 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &TableSwitch{}
 	case 0xab:
 		return &LookSwitch{}
+
+	case 0xb2:
+		return &GetStatic{}
+	case 0xb3:
+		return &PutStatic{}
+	case 0xb4:
+		return &GetField{}
+	case 0xb5:
+		return &PutField{}
+	case 0xb6:
+		return &InvokeVirtual{}
+	case 0xb7:
+		return &InvokeSpecial{}
+
+	case 0xbb:
+		return &New{}
+
+	case 0xc0:
+		return &CheckCast{}
+	case 0xc1:
+		return &InstanceOf{}
 
 	case 0xc6:
 		return &IFNull{}
