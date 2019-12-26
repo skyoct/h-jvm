@@ -1,9 +1,8 @@
 package classfile
 
-
 // 类类型常量
 type ConstantClassInfo struct {
-	cp ConstantPool
+	cp    ConstantPool
 	index uint16
 }
 
@@ -12,9 +11,5 @@ func (c *ConstantClassInfo) readInfo(reader *ClassReader) {
 }
 
 func (c *ConstantClassInfo) Name() string {
-	return c.cp.getClassName(c.index)
+	return c.cp.getUtf8(c.index) // 直接以utf8获取类名称
 }
-
-
-
-

@@ -6,18 +6,17 @@ type ClassFile struct {
 	minorVersion uint16
 	majorVersion uint16
 	constantPool ConstantPool
-	accessFlags uint16
-	thisClass uint16
-	superClass uint16
-	interfaces []uint16
-	fields []*MemberInfo
-	methods []*MemberInfo
-	attributes []AttributeInfo
+	accessFlags  uint16
+	thisClass    uint16
+	superClass   uint16
+	interfaces   []uint16
+	fields       []*MemberInfo
+	methods      []*MemberInfo
+	attributes   []AttributeInfo
 }
 
-
 // 解析class
-func Parser(classData []byte) ( cf *ClassFile, err error) {
+func Parser(classData []byte) (cf *ClassFile, err error) {
 	// 可以使发生panic后停止上报 继续执行
 	defer func() {
 		if r := recover(); r != nil {
@@ -35,30 +34,29 @@ func Parser(classData []byte) ( cf *ClassFile, err error) {
 }
 
 // 读取解析class
-func (c *ClassFile) read(reader *ClassReader){
+func (c *ClassFile) read(reader *ClassReader) {
 	c.readAndCheckMagic(reader)
 	c.readAndCheckVersion(reader)
 	c.constantPool = readConstantPool(reader)
-	fmt.Println("cpCount: ", len(c.constantPool), "   ", cap(c.constantPool))
 	c.accessFlags = reader.readUint16() // 访问标志
 	c.thisClass = reader.readUint16()
 	c.superClass = reader.readUint16()
 	c.interfaces = reader.readUint16s()
 	c.fields = readMembers(reader, c.constantPool)
 	c.methods = readMembers(reader, c.constantPool)
-	c.attributes = readAttributes(reader, c.constantPool)  // 读取类的所有attribute
+	c.attributes = readAttributes(reader, c.constantPool) // 读取类的所有attribute
 }
 
 // 读取并且检查魔数
-func (c *ClassFile) readAndCheckMagic(reader *ClassReader){
+func (c *ClassFile) readAndCheckMagic(reader *ClassReader) {
 	magic := reader.readUint32()
-	if magic != 0xCAFEBABE {   // 检查魔数是否是cafebabe
+	if magic != 0xCAFEBABE { // 检查魔数是否是cafebabe
 		panic("java.lang.classFormatError : magic !")
 	}
 }
 
 // 读取并且检查版本号
-func (c *ClassFile) readAndCheckVersion(reader *ClassReader){
+func (c *ClassFile) readAndCheckVersion(reader *ClassReader) {
 	c.minorVersion = reader.readUint16()
 	c.majorVersion = reader.readUint16()
 	//支持45-52的版本号 (45有多个小版本号)
@@ -82,11 +80,11 @@ func (c *ClassFile) MajorVersion() uint16 {
 	return c.majorVersion
 }
 
-func(c *ClassFile) ClassName() string{
+func (c *ClassFile) ClassName() string {
 	return c.constantPool.getClassName(c.thisClass)
 }
 
-func(c *ClassFile) SuperClassName() string{
+func (c *ClassFile) SuperClassName() string {
 	if c.superClass > 0 {
 		return c.constantPool.getClassName(c.superClass)
 	}
@@ -117,8 +115,3 @@ func (c *ClassFile) Fields() []*MemberInfo {
 func (c *ClassFile) Methods() []*MemberInfo {
 	return c.methods
 }
-
-
-
-
-
