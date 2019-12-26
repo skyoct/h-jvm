@@ -18,7 +18,7 @@ type IFeq struct {
 
 func (i *IFeq) Execute(frame *runtimedata.Frame) {
 	val := frame.OperandStack().PopInt()
-	if val >= 0 {
+	if val == 0 {
 		base.Branch(frame, i.Offset)
 	}
 }

@@ -3,6 +3,7 @@ package compare
 import (
 	"h-jvm/instruction/base"
 	"h-jvm/runtimedata"
+	"h-jvm/runtimedata/metaspace"
 )
 
 func _iPop(frame *runtimedata.Frame) (int32, int32) {
@@ -12,7 +13,7 @@ func _iPop(frame *runtimedata.Frame) (int32, int32) {
 	return val1, val2
 }
 
-func _aPop(frame *runtimedata.Frame) (*runtimedata.Reference, *runtimedata.Reference) {
+func _aPop(frame *runtimedata.Frame) (*metaspace.Object, *metaspace.Object) {
 	ref1 := frame.OperandStack().PopRef()
 	ref2 := frame.OperandStack().PopRef()
 	return ref1, ref2
