@@ -8,9 +8,17 @@ type MemberRef struct {
 	descriptor string // 描述符
 }
 
-func (c *MemberRef) copyMemberRefInfo(refInfo *classfile.ConstantMemberInfo) {
-	c.className = refInfo.ClassName()
-	c.name, c.descriptor = refInfo.NameAndDescriptor()
+func (m *MemberRef) copyMemberRefInfo(refInfo *classfile.ConstantMemberInfo) {
+	m.className = refInfo.ClassName()
+	m.name, m.descriptor = refInfo.NameAndDescriptor()
+}
+
+func (m *MemberRef) Descriptor() string {
+	return m.descriptor
+}
+
+func (m *MemberRef) Name() string {
+	return m.name
 }
 
 // 字段符号
