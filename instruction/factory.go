@@ -484,6 +484,20 @@ func NewInstruction(opcode byte) base.Instruction {
 	case 0xab:
 		return &LookSwitch{}
 
+	// return
+	case 0xac:
+		return &IReturn{}
+	case 0xad:
+		return &LReturn{}
+	case 0xae:
+		return &FReturn{}
+	case 0xaf:
+		return &DReturn{}
+	case 0xb0:
+		return &AReturn{}
+	case 0xb1:
+		return &Return{}
+
 	case 0xb2:
 		return &GetStatic{}
 	case 0xb3:
@@ -492,10 +506,17 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &GetField{}
 	case 0xb5:
 		return &PutField{}
+
+
 	case 0xb6:
 		return &InvokeVirtual{}
 	case 0xb7:
 		return &InvokeSpecial{}
+	case 0xb8:
+		return &InvokeStatic{}
+	case 0xb9:
+		return &InvokeInterface{}
+
 
 	case 0xbb:
 		return &New{}

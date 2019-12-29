@@ -42,3 +42,7 @@ func (s *Stack) pop() *Frame {
 	topFrame.next = nil // 把栈帧的下一个设为nil 防止非法操作
 	return topFrame
 }
+
+func (s *Stack) isEmpty() bool {
+	return s.topPtr == nil
+}

@@ -85,3 +85,9 @@ func (o *OperandStack) PushSlot(slot Slot) {
 	o.slots[o.size] = slot
 	o.size++
 }
+
+
+// 出栈距离顶部w的引用
+func (o *OperandStack) GetFromTop(w uint) *metaspace.Object{
+	return o.slots[o.size - w -1].ref
+}

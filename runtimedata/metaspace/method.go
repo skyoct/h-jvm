@@ -17,6 +17,7 @@ func newMethods(class *Class, cfMethods []*classfile.MemberInfo) []*Method {
 		methods[i].class = class
 		methods[i].copyMemberInfo(cfMethod)
 		methods[i].copyAttribute(cfMethod)
+		methods[i].calcArgSlotCount()
 	}
 	return methods
 }

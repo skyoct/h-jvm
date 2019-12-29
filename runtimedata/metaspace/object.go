@@ -22,5 +22,5 @@ func (o *Object) Fields() Slots {
 
 // 判断是某个类的实例
 func (o *Object) IsInstanceOf(class *Class) bool {
-	return class.isAssignableFrom(o.class)
+	return class.IsAssignableFrom(o.class)
 }

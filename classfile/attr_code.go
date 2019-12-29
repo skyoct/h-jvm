@@ -48,5 +48,5 @@ func (c *CodeAttribute) MaxLocals() uint {
 }
 
 func (c *CodeAttribute) MaxStack() uint {
-	return uint(c.maxLocals)
+	return uint(c.maxStack)
 }

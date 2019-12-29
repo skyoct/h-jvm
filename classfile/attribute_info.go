@@ -1,5 +1,7 @@
 package classfile
 
+import "fmt"
+
 // 属性表
 
 type AttributeInfo interface {
@@ -26,12 +28,18 @@ func readAttribute(reader *ClassReader, cp ConstantPool) AttributeInfo {
 
 func newAttributeInfo(attrName string, attrLen uint32, cp ConstantPool) AttributeInfo {
 	switch attrName {
+	case "BootstrapMethods":
+		return &BootstrapMethodsAttribute{}
 	case "Code":
 		return &CodeAttribute{cp: cp}
 	case "ConstantValue":
 		return &ConstantValueAttribute{}
+	case "Deprecated":
+		return &DeprecatedAttribute{}
 	case "Exceptions":
 		return &ExceptionAttribute{}
+	case "InnerClasses":
+		return &InnerClassesAttribute{}
 	case "LineNumberTable":
 		return &LineNumberTableAttribute{}
 	case "LocalVariableTable":
@@ -42,7 +50,10 @@ func newAttributeInfo(attrName string, attrLen uint32, cp ConstantPool) Attribut
 		return &SignatureAttribute{cp: cp}
 	case "StackMapTable":
 		return &StackMapTable{attrLen}
+	case "Synthetic":
+		return &SyntheticAttribute{}
 	default:
-		return &UnparsedAttribute{}
+		fmt.Println(attrName)
+		return &UnparsedAttribute{attrName, attrLen, nil}
 	}
 }

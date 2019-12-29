@@ -6,7 +6,7 @@ import (
 )
 
 // jre路径
-const jrePath = "E:\\Code\\Go\\src\\h-jvm"
+const jrePath = "/Users/october/WorkSpace/jre"
 
 type Classpath struct {
 	bootClasspath Entry // 启动类加载器

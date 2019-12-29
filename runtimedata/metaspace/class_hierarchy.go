@@ -4,20 +4,20 @@ package metaspace
 
 // jvms8 6.5.instanceof
 // jvms8 6.5.checkcast
-func (c *Class) isAssignableFrom(other *Class) bool {
+func (c *Class) IsAssignableFrom(other *Class) bool {
 	if c == other {
 		return true
 	}
 	if !other.IsInterface() {
-		return c.isSubClassOf(other)
+		return c.IsSubClassOf(other)
 	} else {
-		return c.isImplements(other)
+		return c.IsImplements(other)
 	}
 }
 
 // 判断c是否继承于某个类
 // 递归往上找 找到一个c的一个父类等于other
-func (c *Class) isSubClassOf(other *Class) bool {
+func (c *Class) IsSubClassOf(other *Class) bool {
 	for class := c.superClass; class != nil; class = class.superClass {
 		if class == other {
 			return true
@@ -27,7 +27,7 @@ func (c *Class) isSubClassOf(other *Class) bool {
 }
 
 // 判断当前类是否实现一个接口
-func (c *Class) isImplements(iface *Class) bool {
+func (c *Class) IsImplements(iface *Class) bool {
 	for class := c; class != nil; class = c.superClass { // 循环遍历当前类和父类
 		for _, i := range class.interfaces { // 循环遍历接口
 			if i == iface || i.isSubInterfaceOf(iface) { // 进行查找
@@ -46,4 +46,9 @@ func (c *Class) isSubInterfaceOf(iface *Class) bool {
 		}
 	}
 	return false
+}
+
+// c extends self
+func (c *Class) IsSuperClassOf(other *Class) bool {
+	return other.IsSubClassOf(c)
 }

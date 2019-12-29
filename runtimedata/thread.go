@@ -40,3 +40,7 @@ func (t *Thread) Pc() int {
 func (t *Thread) NewFrame(method *metaspace.Method) *Frame {
 	return NewFrame(method)
 }
+
+func (t *Thread)IsStackEmpty() bool {
+	return t.stack.isEmpty()
+}

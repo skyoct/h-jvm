@@ -77,11 +77,11 @@ func (c *Class) StaticVars() Slots {
 // 判断是否能访问另外一个类
 func (c *Class) isAccessibleTo(other *Class) bool {
 	return c.IsPublic() ||
-		c.getPackageName() == other.getPackageName()
+		c.GetPackageName() == other.GetPackageName()
 }
 
 // 得到包名
-func (c *Class) getPackageName() string {
+func (c *Class) GetPackageName() string {
 	if i := strings.LastIndex(c.name, "/"); i >= 0 {
 		return c.name[:i]
 	}

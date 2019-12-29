@@ -10,7 +10,6 @@ func InvokeMethod(invokeFrame *runtimedata.Frame, method *metaspace.Method) {
 	thread := invokeFrame.Thread()
 	newFrame := thread.NewFrame(method)
 	thread.PushFrame(newFrame)
-
 	argSlotCount := int(method.ArgsSlotCount())
 	if argSlotCount > 0 {
 		for i := argSlotCount - 1; i >= 0; i-- {

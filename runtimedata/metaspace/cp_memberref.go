@@ -1,6 +1,8 @@
 package metaspace
 
-import "h-jvm/classfile"
+import (
+	"h-jvm/classfile"
+)
 
 type MemberRef struct {
 	SymRef
@@ -102,7 +104,12 @@ func (m *MethodRef) resolveMethodRef() {
 	if currentClass.IsInterface() { // 判断要执行的方法的类是不是接口
 		panic("java.lang.IncompatibleClassChangeError")
 	}
-	method := lookupMethod(class, m.name, m.descriptor)
+	method := lookupMethod(currentClass, m.name, m.descriptor)
+	//fmt.Println("*********")
+	//fmt.Println(currentClass.Name())
+	//fmt.Println(m.descriptor)
+	//fmt.Println("*********", m.name)
+
 	if method == nil {
 		panic("java.lang.NoSuchMethodError")
 	}
