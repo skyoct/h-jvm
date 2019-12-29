@@ -8,11 +8,11 @@
 
 代码：
 
-![code](./docs/img/fib_code.png)
+![code](./img/fib_code.png)
 
 
 运行效果
-![result](./docs/img/run_result.png)
+![result](./img/run_result.png)
 
 
 #### 当前计划实现功能
