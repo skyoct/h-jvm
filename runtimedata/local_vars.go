@@ -67,3 +67,7 @@ func (l LocalVars) SetRef(index uint, ref *metaspace.Object) {
 func (l LocalVars) GetRef(index uint) *metaspace.Object {
 	return l[index].ref
 }
+
+func (l LocalVars) SetSlot(index uint, slot Slot) {
+	l[index] = slot
+}

@@ -34,32 +34,6 @@ func newFieldRef(cp *ConstantPool, refInfo *classfile.ConstantFieldrefInfo) *Fie
 	return ref
 }
 
-// 方法符号引用
-type MethodRef struct {
-	MemberRef
-	method *Method
-}
-
-func newMethodRef(cp *ConstantPool, refInfo *classfile.ConstantMethodrefInfo) *MethodRef {
-	ref := &MethodRef{}
-	ref.cp = cp
-	ref.copyMemberRefInfo(&refInfo.ConstantMemberInfo)
-	return ref
-}
-
-// 接口方法引用
-type InterfaceMethodRef struct {
-	MemberRef
-	method *Method
-}
-
-func newInterfaceMethodRef(cp *ConstantPool, refInfo *classfile.ConstantInterfaceMethodrefInfo) *InterfaceMethodRef {
-	ref := &InterfaceMethodRef{}
-	ref.cp = cp
-	ref.copyMemberRefInfo(&refInfo.ConstantMemberInfo)
-	return ref
-}
-
 //字段的符号引用解析 如果存在 直接返回 不存在就去解析
 func (f *FieldRef) ResolvedField() *Field {
 	if f.field == nil {
@@ -77,7 +51,7 @@ func (f *FieldRef) resolveFieldRef() {
 	if field == nil {
 		panic("java.lang.NoSuchFieldError")
 	}
-	if !field.isAccessibleTo(d) {
+	if !field.isAccessibleTo(d) { // 判断是否有访问权限
 		panic("java.lang.IllegalAccessError")
 	}
 	f.field = field
@@ -99,4 +73,95 @@ func lookupField(c *Class, name, descriptor string) *Field {
 		lookupField(c.superClass, name, descriptor)
 	}
 	return nil
+}
+
+// 方法符号引用
+type MethodRef struct {
+	MemberRef
+	method *Method
+}
+
+func newMethodRef(cp *ConstantPool, refInfo *classfile.ConstantMethodrefInfo) *MethodRef {
+	ref := &MethodRef{}
+	ref.cp = cp
+	ref.copyMemberRefInfo(&refInfo.ConstantMemberInfo)
+	return ref
+}
+
+func (m *MethodRef) ResolvedMethod() *Method {
+	if m.method == nil {
+		m.resolveMethodRef()
+	}
+	return m.method
+}
+
+// 解决方法引用
+func (m *MethodRef) resolveMethodRef() {
+	class := m.cp.class // 获取当前方法在哪个类内
+	currentClass := m.ResolvedClass()
+	if currentClass.IsInterface() { // 判断要执行的方法的类是不是接口
+		panic("java.lang.IncompatibleClassChangeError")
+	}
+	method := lookupMethod(class, m.name, m.descriptor)
+	if method == nil {
+		panic("java.lang.NoSuchMethodError")
+	}
+	if !method.isAccessibleTo(class) { // 判断是否有访问权限
+		panic("java.lang.IllegalAccessError")
+	}
+	m.method = method
+}
+
+// 查找方法
+func lookupMethod(class *Class, name, descriptor string) *Method {
+	method := LookupMethodInClass(class, name, descriptor)
+	if method == nil {
+		method = lookupMethodInInterfaces(class.interfaces, name, descriptor)
+	}
+	return method
+}
+
+// 接口方法引用
+type InterfaceMethodRef struct {
+	MemberRef
+	method *Method
+}
+
+func newInterfaceMethodRef(cp *ConstantPool, refInfo *classfile.ConstantInterfaceMethodrefInfo) *InterfaceMethodRef {
+	ref := &InterfaceMethodRef{}
+	ref.cp = cp
+	ref.copyMemberRefInfo(&refInfo.ConstantMemberInfo)
+	return ref
+}
+
+func (i *InterfaceMethodRef) ResolvedInterfaceMethod() *Method {
+	if i.method == nil {
+
+	}
+	return i.method
+}
+
+func (i *InterfaceMethodRef) resolveInterfaceMethodRef() {
+	d := i.cp.class
+	c := i.ResolvedClass() // 解决类的加载
+	if !c.IsInterface() {
+		panic("java.lang.IncompatibleClassChangeError")
+	}
+	method := lookupInterfaceMethod(c, i.name, i.descriptor)
+	if method == nil {
+		panic("java.lang.NoSuchMethodError")
+	}
+	if !method.isAccessibleTo(d) {
+		panic("java.lang.IllegalAccessError")
+	}
+	i.method = method
+}
+
+func lookupInterfaceMethod(ifaces *Class, name, descriptor string) *Method {
+	for _, method := range ifaces.methods {
+		if method.name == name && method.descriptor == descriptor {
+			return method
+		}
+	}
+	return lookupMethodInInterfaces(ifaces.interfaces, name, descriptor)
 }

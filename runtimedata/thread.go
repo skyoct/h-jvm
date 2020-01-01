@@ -1,5 +1,7 @@
 package runtimedata
 
+import "h-jvm/runtimedata/metaspace"
+
 type Thread struct {
 	pc    int
 	stack *Stack
@@ -33,4 +35,8 @@ func (t *Thread) SetPc(nextPc int) {
 
 func (t *Thread) Pc() int {
 	return t.pc
+}
+
+func (t *Thread) NewFrame(method *metaspace.Method) *Frame {
+	return NewFrame(method)
 }

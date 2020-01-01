@@ -104,3 +104,7 @@ func (c *Class) getStaticMethod(name, descriptor string) *Method {
 	}
 	return nil
 }
+
+func (c *Class) Name() string {
+	return c.name
+}
