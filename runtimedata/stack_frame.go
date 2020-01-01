@@ -43,3 +43,8 @@ func (f *Frame) Thread() *Thread {
 func (f *Frame) Method() *metaspace.Method {
 	return f.method
 }
+
+
+func (f *Frame)RevertNextPc(){
+	f.nextPc = f.thread.pc
+}

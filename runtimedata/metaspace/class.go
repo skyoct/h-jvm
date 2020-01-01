@@ -19,7 +19,7 @@ type Class struct {
 	instanceSlotCount uint  // 实例变量槽数量
 	staticSlotCount   uint  // 静态变量槽数量
 	staticVars        Slots // 静态变量放的槽
-
+	initStarted 	  bool   // 标识是否开始初始化
 }
 
 // 创建类
@@ -107,4 +107,22 @@ func (c *Class) getStaticMethod(name, descriptor string) *Method {
 
 func (c *Class) Name() string {
 	return c.name
+}
+
+
+func (c *Class) SuperClass() *Class{
+	return c.superClass
+}
+
+func (c *Class) InitStarted() bool {
+	return c.initStarted
+}
+
+func (c *Class)StartInit()  {
+	c.initStarted = true
+}
+
+// 获取clinit
+func (c *Class) GetClinitMethod() *Method {
+	return c.getStaticMethod("<clinit>", "()V")
 }

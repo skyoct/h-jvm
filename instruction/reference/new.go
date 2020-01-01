@@ -17,6 +17,11 @@ func (n *New) Execute(frame *runtimedata.Frame) {
 	cp := frame.Method().Class().ConstantPool() // 得到这个栈帧所属方法的类的
 	classRef := cp.GetConstant(n.Index).(*metaspace.ClassRef)
 	class := classRef.ResolvedClass()              // 加载类
+	if !class.InitStarted() {
+		frame.RevertNextPc() // 把pc指向当前指令（回退一步）
+		base.InitClass(frame.Thread(), class)
+		return
+	}
 	if class.IsInterface() || class.IsAbstract() { // 如果是接口或者抽象类直接报错
 		panic("java.lang.InstantiationError")
 	}

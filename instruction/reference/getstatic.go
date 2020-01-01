@@ -15,6 +15,12 @@ func (g *GetStatic) Execute(frame *runtimedata.Frame) {
 	fieldRef := cp.GetConstant(g.Index).(*metaspace.FieldRef)
 	field := fieldRef.ResolvedField() // 通过字段引用加载字段
 	class := field.Class()            // 得到字段所属的class
+	
+	if !class.InitStarted() {
+		frame.RevertNextPc() // 把pc指向当前指令（回退一步）
+		base.InitClass(frame.Thread(), class)
+		return
+	}
 	if !field.IsStatic() {            // 如果当前字段不是静态的
 		panic("java.lang.IncompatibleClassChangeError")
 	}
