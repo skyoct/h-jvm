@@ -2,13 +2,13 @@ package metaspace
 
 type Object struct {
 	class  *Class
-	fields Slots
+	data interface{}
 }
 
 func newObject(class *Class) *Object {
 	return &Object{
 		class:  class,
-		fields: newSlots(class.instanceSlotCount),
+		data: newSlots(class.instanceSlotCount),
 	}
 }
 
@@ -17,7 +17,7 @@ func (o *Object) Class() *Class {
 	return o.class
 }
 func (o *Object) Fields() Slots {
-	return o.fields
+	return o.data.(Slots)
 }
 
 // 判断是某个类的实例

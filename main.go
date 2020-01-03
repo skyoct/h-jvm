@@ -13,7 +13,7 @@ func main() {
 func startJVM() {
 	cp := classpath.Parser("")
 	classLoader := metaspace.NewClassLoader(cp)
-	mainClass := classLoader.LoadClass("Fib")
+	mainClass := classLoader.LoadClass("Fibonacci")
 	mainMethod := mainClass.GetMainMethod()
 	fmt.Print(mainClass.Name())
 	mainClass.NewObject()

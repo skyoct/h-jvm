@@ -21,7 +21,7 @@ func (i *InvokeSpecial) Execute(frame *runtimedata.Frame) {
 	if resolvedMethod.Name() == "<init>" && resolvedMethod.Class() != resolvedClass{
 		panic("java.lang.NoSuchMethodError")
 	}
-	if !resolvedMethod.IsStatic() {
+	if resolvedMethod.IsStatic() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
 	// 获取到要执行方法的实例对象的引用

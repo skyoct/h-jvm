@@ -264,6 +264,24 @@ func NewInstruction(opcode byte) base.Instruction {
 		return aload_2
 	case 0x2d:
 		return aload_3
+	// 数组aload
+	case 0x2e:
+		return &IALoad{}
+	case 0x2f:
+		return &LALoad{}
+	case 0x30:
+		return &FALoad{}
+	case 0x31:
+		return &DALoad{}
+	case 0x32:
+		return &AALoad{}
+	case 0x33:
+		return &BALoad{}
+	case 0x34:
+		return &CALoad{}
+	case 0x35:
+		return &SALoad{}
+
 
 	case 0x36:
 		return &IStore{}
@@ -315,6 +333,24 @@ func NewInstruction(opcode byte) base.Instruction {
 		return astore_2
 	case 0x4e:
 		return astore_3
+
+	// 数组的astore
+	case 0x4f:
+		return &IAStore{}
+	case 0x50:
+		return &LAStore{}
+	case 0x51:
+		return &FAStore{}
+	case 0x52:
+		return &DAStore{}
+	case 0x53:
+		return &AAStore{}
+	case 0x54:
+		return &BAStore{}
+	case 0x55:
+		return &CAStore{}
+	case 0x56:
+		return &SAStore{}
 
 	case 0x57:
 		return pop
@@ -520,6 +556,13 @@ func NewInstruction(opcode byte) base.Instruction {
 
 	case 0xbb:
 		return &New{}
+	// 创建数组指令
+	case 0xbc:
+		return &NewArray{}
+	case 0xbd:
+		return &ANewArray{}
+	case 0xbe:
+		return &ArrayLength{}
 
 	case 0xc0:
 		return &CheckCast{}

@@ -48,6 +48,9 @@ func (c *ClassMember) Descriptor() string {
 func (c *ClassMember) Class() *Class {
 	return c.class
 }
+func (c *Class) Loader() *ClassLoader{
+	return c.classLoader
+}
 
 // 字段和方法的访问权限判断  判断在d中是否可以访问c的方法
 func (c *ClassMember) isAccessibleTo(d *Class) bool {

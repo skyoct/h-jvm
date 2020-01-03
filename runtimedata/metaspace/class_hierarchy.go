@@ -5,14 +5,43 @@ package metaspace
 // jvms8 6.5.instanceof
 // jvms8 6.5.checkcast
 func (c *Class) IsAssignableFrom(other *Class) bool {
-	if c == other {
+	s, t := other, c
+	if s == t {
 		return true
 	}
-	if !other.IsInterface() {
-		return c.IsSubClassOf(other)
-	} else {
-		return c.IsImplements(other)
+	if !s.IsArray() {  //不是数组
+		if !s.IsInterface() { // 不是接口
+			if !t.IsInterface() {
+				return s.IsSubClassOf(t)
+			} else {
+				s.IsImplements(t) // 判断s是否实现t
+			}
+
+		}else {
+			//s是接口
+			if !t.IsInterface(){
+				// t不是接口
+				return t.isJlObject()  //是否是Object
+			} else{
+				return t.isJlCloneable() || t.isJlSerializable()
+			}
+		}
+	}else {
+		// s是数组
+		if !t.IsArray() {
+			// t不是数组
+			if !t.IsInterface() {
+				return t.isJlObject()
+			}else {
+				return t.isJlCloneable() || t.isJlSerializable()
+			}
+		}else{
+			// t是数组
+			// 等待完成
+			return false
+		}
 	}
+	return false
 }
 
 // 判断c是否继承于某个类
@@ -48,7 +77,7 @@ func (c *Class) isSubInterfaceOf(iface *Class) bool {
 	return false
 }
 
-// c extends self
+// 判断c是不是other的超类
 func (c *Class) IsSuperClassOf(other *Class) bool {
 	return other.IsSubClassOf(c)
 }

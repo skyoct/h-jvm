@@ -20,18 +20,42 @@ func NewClassLoader(cp *classpath.Classpath) *ClassLoader {
 
 // 加载类 如果类已经存在则直接返回类 不存在则加载类
 func (c *ClassLoader) LoadClass(name string) *Class {
-	if class, ok := c.classMap[name]; ok {
+	if class, ok := c.classMap[name]; ok {  //类已经被加载
 		return class
+	}
+	if name[0] == '[' {   //如果为数组
+		//return c.\
+		return c.loadArrayClass(name)
+
 	}
 	return c.loadNonArrayClass(name)
 }
 
-// 加载没有的类
+// 加载不是数组的类
 func (c *ClassLoader) loadNonArrayClass(name string) *Class {
 	data, entry := c.readClass(name)
 	class := c.defineClass(data)
 	link(class)
 	fmt.Printf("[Loaded %s from %s]\n", name, entry)
+	return class
+}
+
+// 加载是数组的类
+// 父类是Object
+// 实现了 Cloneable 和 Serializable接口
+func (c *ClassLoader) loadArrayClass(name string) *Class{
+	class := &Class{
+		accessFlags: ACC_PUBLIC,
+		name: name,
+		classLoader: c,
+		initStarted: true,
+		superClass: c.LoadClass("java/lang/Object"),
+		interfaces: []*Class{
+			c.LoadClass("java/lang/Cloneable"),
+			c.LoadClass("java/io/Serializable"),
+		},
+	}
+	c.classMap[name] = class // 添加到数组中
 	return class
 }
 

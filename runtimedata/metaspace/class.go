@@ -126,3 +126,14 @@ func (c *Class)StartInit()  {
 func (c *Class) GetClinitMethod() *Method {
 	return c.getStaticMethod("<clinit>", "()V")
 }
+
+//判断是否是某个类
+func (c *Class) isJlObject() bool {
+	return c.name == "java/lang/Object"
+}
+func (c *Class) isJlCloneable() bool {
+	return c.name == "java/lang/Cloneable"
+}
+func (c *Class) isJlSerializable() bool {
+	return c.name == "java/io/Serializable"
+}
