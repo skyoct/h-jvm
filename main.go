@@ -7,15 +7,23 @@ import (
 )
 
 func main() {
-	startJVM()
+	cmd := cmdParser()
+	//cmd.cpOption = "/Users/october"
+	//cmd.class = "Fibonacci"
+	//cmd.jreOption = "/Users/october/WorkSpace/jre"
+	if cmd.helpFlag {
+		printUsage()
+	} else {
+		startJVM(cmd)
+	}
 }
 
-func startJVM() {
-	cp := classpath.Parser("")
+func startJVM(cmd *Cmd) {
+	cp := classpath.Parser(cmd.cpOption, cmd.jreOption)
 	classLoader := metaspace.NewClassLoader(cp)
-	mainClass := classLoader.LoadClass("Fibonacci")
+	mainClass := classLoader.LoadClass(cmd.class)
 	mainMethod := mainClass.GetMainMethod()
-	fmt.Print(mainClass.Name())
+	//fmt.Print(mainClass.Name())
 	mainClass.NewObject()
 	if mainMethod != nil{
 		interpret(mainMethod, false)

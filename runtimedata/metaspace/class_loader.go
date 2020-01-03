@@ -1,7 +1,6 @@
 package metaspace
 
 import (
-	"fmt"
 	"h-jvm/classfile"
 	"h-jvm/classpath"
 )
@@ -33,10 +32,11 @@ func (c *ClassLoader) LoadClass(name string) *Class {
 
 // 加载不是数组的类
 func (c *ClassLoader) loadNonArrayClass(name string) *Class {
-	data, entry := c.readClass(name)
+	data, _ := c.readClass(name)
+	//data, entry := c.readClass(name)
 	class := c.defineClass(data)
 	link(class)
-	fmt.Printf("[Loaded %s from %s]\n", name, entry)
+	//fmt.Printf("[Loaded %s from %s]\n", name, entry)
 	return class
 }
 

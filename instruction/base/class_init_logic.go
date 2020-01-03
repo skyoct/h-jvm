@@ -1,7 +1,6 @@
 package base
 
 import (
-	"fmt"
 	"h-jvm/runtimedata"
 	"h-jvm/runtimedata/metaspace"
 )
@@ -16,7 +15,7 @@ func InitClass(thread *runtimedata.Thread, class *metaspace.Class) {
 func exeClinit(thread *runtimedata.Thread, class *metaspace.Class){
 	clinit := class.GetClinitMethod() // 获取clinit方法
 	if clinit != nil {
-		fmt.Println("[invoke clinit: " + class.Name() + "]")
+		//fmt.Println("[invoke clinit: " + class.Name() + "]")
 		newFrame := thread.NewFrame(clinit) // 创建一个帧来执行clinit
 		thread.PushFrame(newFrame)
 	}

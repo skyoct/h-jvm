@@ -1,7 +1,5 @@
 package classfile
 
-import "fmt"
-
 // 属性表
 
 type AttributeInfo interface {
@@ -53,7 +51,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp ConstantPool) Attribut
 	case "Synthetic":
 		return &SyntheticAttribute{}
 	default:
-		fmt.Println(attrName)
+		//fmt.Println(attrName)
 		return &UnparsedAttribute{attrName, attrLen, nil}
 	}
 }

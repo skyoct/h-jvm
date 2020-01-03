@@ -6,7 +6,7 @@ import (
 )
 
 // jre路径
-const jrePath = "/Users/october/WorkSpace/jre"
+//const jrePath = "/Users/october/WorkSpace/jre"
 
 type Classpath struct {
 	bootClasspath Entry // 启动类加载器
@@ -33,9 +33,9 @@ func (c *Classpath) String() string {
 	return c.userClasspath.String()
 }
 
-func Parser(cpOption string) *Classpath {
+func Parser(cpOption, jreOption string) *Classpath {
 	cp := &Classpath{}
-	cp.parseBootAndExtClasspath() // 解析启动类和扩展类的加载器
+	cp.parseBootAndExtClasspath(jreOption) // 解析启动类和扩展类的加载器
 	cp.parserUserClasspath(cpOption)
 	return cp
 }
@@ -44,7 +44,7 @@ func Parser(cpOption string) *Classpath {
 解析启动类和扩展类
 */
 
-func (c *Classpath) parseBootAndExtClasspath() {
+func (c *Classpath) parseBootAndExtClasspath(jrePath string) {
 	if !exists(jrePath) {
 		panic("jre不存在......")
 	}
